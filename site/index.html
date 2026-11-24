@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoDPA Network Browser</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#" id="home-link">MoDPA <span>PTM association network</span></a>
+  <div class="search">
+    <input id="search" type="search" autocomplete="off" spellcheck="false"
+           placeholder="Gene, UniProt accession, site (TP53 S15), modification or cluster 12"
+           aria-label="Search the network" aria-autocomplete="list" aria-controls="suggest">
+    <ul id="suggest" role="listbox" hidden></ul>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="panel controls" aria-label="View settings">
+    <section>
+      <h2>Score threshold</h2>
+      <div class="slider-row">
+        <input id="score" type="range" min="0.60" max="1.00" step="0.01" value="0.60" aria-label="Minimum score">
+        <output id="score-out">0.60</output>
+      </div>
+      <p class="hint" id="score-hint"></p>
+    </section>
+    <section>
+      <h2>Neighbours</h2>
+      <label class="check"><input id="shell" type="checkbox" checked> Add first-shell partners</label>
+      <label class="field">Max nodes
+        <select id="maxnodes">
+          <option>100</option><option selected>300</option><option>600</option><option>1000</option>
+        </select>
+      </label>
+    </section>
+    <section>
+      <h2>Display</h2>
+      <label class="check"><input id="group" type="checkbox" checked> Group sites by protein</label>
+      <label class="check"><input id="labels" type="checkbox" checked> Show labels</label>
+      <label class="check"><input id="artefacts" type="checkbox" checked> Show potential artefact edges</label>
+      <p class="hint">Potential artefacts (dashed) are same-modification pairs within 5 residues. The flag is a rough proximity rule, not evidence of a shared peptide.</p>
+    </section>
+    <section>
+      <h2>Modification</h2>
+      <ul id="legend" class="legend"></ul>
+    </section>
+    <section class="meta" id="meta"></section>
+  </aside>
+
+  <section class="stage" aria-label="Network">
+    <div class="viewbar">
+      <div id="view-title" class="view-title">No query</div>
+      <div class="viewbar-actions">
+        <button id="fit" type="button" title="Fit network to view">Fit</button>
+        <button id="relayout" type="button" title="Run the layout again">Re-layout</button>
+        <button id="png" type="button">PNG</button>
+        <button id="svg" type="button">SVG</button>
+        <button id="csv" type="button">CSV</button>
+      </div>
+    </div>
+    <div id="track" class="track" hidden></div>
+    <div id="notice" class="notice" hidden></div>
+    <div id="cy" class="cy"></div>
+    <div id="welcome" class="welcome">
+      <h1>Browse PTM associations</h1>
+      <p>Search a protein to see all its modified sites and their partners, a single site,
+         a modification type, or a Leiden cluster.</p>
+      <div id="examples" class="examples"></div>
+    </div>
+    <div id="tooltip" class="tooltip" hidden></div>
+  </section>
+
+  <aside class="panel details" aria-label="Details">
+    <div id="details"></div>
+  </aside>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.30.2/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/layout-base@2.0.1/layout-base.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cose-base@2.2.0/cose-base.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-fcose@2.2.0/cytoscape-fcose.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-svg@0.4.0/cytoscape-svg.js"></script>
+<script src="data/modpa-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
